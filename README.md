@@ -6,7 +6,7 @@ these containers are coded in C++98, so any new feature of the containers IS NOT
 implemented, but every old feature is present.
 
 ### Test environment :
-The tests we built and run directly on macOS Mojave(10.14) and also on Ubuntu gcc5/6/7.
+The tests we built and run directly on macOS Mojave(10.14), Big sur(11.6) and also on Ubuntu gcc5/6/7.
 
 ### Test Content : 
 
