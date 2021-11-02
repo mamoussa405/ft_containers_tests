@@ -11,7 +11,7 @@
 # ************************************************************************************************** #
 
 COMPILER = clang++
-FLAGS = --std=c++98 -Wall -Wextra -Werror -fsanitize=address -pedentic -g3 -0fast
+FLAGS = --std=c++98 -Wall -Wextra -Werror -fsanitize=address -g3
 
 vector:
 	@$(COMPILER) $(FLAGS)	Vector_tests.cpp -o vector.out 
