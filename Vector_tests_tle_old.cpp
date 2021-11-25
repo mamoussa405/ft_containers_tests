@@ -1,14 +1,14 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Vector_tests.cpp                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ibaali <ibaali@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/24 11:32:49 by ibaali            #+#    #+#             */
-/*   Updated: 2021/11/24 18:29:28 by ibaali           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/* ************************************************************************************************ */
+/*                                                                                                  */
+/*                                                        :::   ::::::::   ::::::::  :::::::::::    */
+/*   Vector_test.cpp                                   :+:+:  :+:    :+: :+:    :+: :+:     :+:     */
+/*                                                      +:+         +:+        +:+        +:+       */
+/*   By: mamoussa <mamoussa@student.1337.ma>           +#+      +#++:      +#++:        +#+         */
+/*                                                    +#+         +#+        +#+      +#+           */
+/*   Created: 2021/07/10 19:43:45 by mamoussa        #+#  #+#    #+# #+#    #+#     #+#             */
+/*   Updated: 2021/09/23 12:57:39 by moboustt         ###   ########.fr       */
+/*                                                                                                  */
+/* ************************************************************************************************ */
 
 #include <vector>
 #include <iostream>
@@ -487,6 +487,21 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " fill constructor "
               << "] --------------------]\t\t\033[0m";
     {
+        /*---------------------------------- time limit test --------------------------------------------*/
+        {
+            time_t start, end, diff;
+
+            start = get_time();
+            std::vector<std::string> v(1e5, "fill constructor test");
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+
+            ualarm(diff * 1e3, 0);
+            ft::Vector<std::string> my_v(1e5, "fill constructor test");
+            ualarm(0, 0);
+        }
+        /*----------------------------------------------------------------------------------------------*/
         /*--------------- fill tow vectors with a 10 strings ------*/
         ft::Vector<std::string> my_v(10, "fill constructor test");
         std::vector<std::string> v(10, "fill constructor test");
@@ -504,6 +519,21 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " range constructor "
               << "] --------------------]\t\t\033[0m";
     {
+        /*---------------------------------- time limit test --------------------------------------------*/
+        {
+            time_t start, end, diff;
+            std::vector<std::string> v(1e5, "range constructor test");
+            start = get_time();
+            std::vector<std::string> v1(v.begin(), v.end());
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+
+            ualarm(diff * 1e3, 0);
+            ft::Vector<std::string> my_v(v.begin(), v.end());
+            ualarm(0, 0);
+        }
+        /*-----------------------------------------------------------------------------------------------*/
         /*--------------- fill std::vector with 10 strings and ft::vector with range of iterators ------*/
         std::vector<std::string> v(10, "range constructor test");
         ft::Vector<std::string> my_v(10, "range constructor test");
@@ -525,6 +555,22 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " copy constructor "
               << "] --------------------]\t\t\033[0m";
     {
+        /*---------------------------------- time limit test --------------------------------------------*/
+        {
+            time_t start, end, diff;
+            std::vector<char> v(1e7, 'a');
+            start = get_time();
+            std::vector<char> copy_v(v);
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * 20) : 20;
+
+            ft::Vector<char> my_v(1e7, 'a');
+            alarm(diff);
+            ft::Vector<char> my_copy_v(my_v);
+            alarm(0);
+        }
+        /*---------------------------------------------------------------------------------------------*/
         /*---------------------------- declare a vector and fill with 'a', and create a copy of it ------------------*/
         ft::Vector<char> v1(10, 'a');
         ft::Vector<char> copy_v(v1);
@@ -544,6 +590,27 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " = operator (lhs.size = rhs.size) "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v1(1e6, "string1");
+            std::vector<std::string> v2(1e6, "string2");
+            start = get_time();
+            v1 = v2;
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*-----------------------------------------------------*/
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1(1e6, "string1");
+            ft::Vector<std::string> ft_v2(1e6, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v1 = ft_v2;
+            ualarm(0, 0);
+            /*----------------------------------------------------*/
+        }
+        /*------------------------------------------------------------------------------------------*/
         /*------------------ std::vectors ---------------------*/
         std::vector<std::string> v1(10, "string1");
         std::vector<std::string> v2(10, "string2");
@@ -570,6 +637,27 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " = operator (lhs.size < rhs.size) "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v1(1e4, "string1");
+            std::vector<std::string> v2(1e6, "string2");
+            start = get_time();
+            v1 = v2;
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*-----------------------------------------------------*/
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1(1e4, "string1");
+            ft::Vector<std::string> ft_v2(1e6, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v1 = ft_v2;
+            ualarm(0, 0);
+            /*----------------------------------------------------*/
+        }
+        /*------------------------------------------------------------------------------------------*/
         /*------------------ std::vectors ---------------------*/
         std::vector<std::string> v1(10, "string1");
         std::vector<std::string> v2(20, "string2");
@@ -596,6 +684,27 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " = operator (lhs.size > rhs.size) "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v1(1e6, "string1");
+            std::vector<std::string> v2(1e4, "string2");
+            start = get_time();
+            v1 = v2;
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*-----------------------------------------------------*/
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1(1e6, "string1");
+            ft::Vector<std::string> ft_v2(1e4, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v1 = ft_v2;
+            ualarm(0, 0);
+            /*----------------------------------------------------*/
+        }
+        /*------------------------------------------------------------------------------------------*/
         /*------------------ std::vectors ---------------------*/
         std::vector<std::string> v1(20, "string1");
         std::vector<std::string> v2(10, "string2");
@@ -622,6 +731,27 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " = operator (lhs.size = 0) "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v1;
+            std::vector<std::string> v2(1e6, "string2");
+            start = get_time();
+            v1 = v2;
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*-----------------------------------------------------*/
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1;
+            ft::Vector<std::string> ft_v2(1e6, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v1 = ft_v2;
+            ualarm(0, 0);
+            /*----------------------------------------------------*/
+        }
+        /*------------------------------------------------------------------------------------------*/
         /*------------------ std::vectors ---------------------*/
         std::vector<std::string> v1;
         std::vector<std::string> v2(10, "string2");
@@ -648,6 +778,27 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " = operator (rhs.size = 0) "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v1(1e6, "string2");
+            std::vector<std::string> v2;
+            start = get_time();
+            v1 = v2;
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*-----------------------------------------------------*/
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1(1e6, "string2");
+            ft::Vector<std::string> ft_v2;
+            ualarm(diff * 1e3, 0);
+            ft_v1 = ft_v2;
+            ualarm(0, 0);
+            /*----------------------------------------------------*/
+        }
+        /*------------------------------------------------------------------------------------------*/
         /*------------------ std::vectors ---------------------*/
         std::vector<std::string> v1(10, "string2");
         std::vector<std::string> v2;
@@ -673,6 +824,27 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " begin and end methods "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v1(1e6, "string2");
+            start = get_time();
+            v1.begin();
+            v1.end();
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*-----------------------------------------------------*/
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1(1e6, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v1.begin();
+            ft_v1.end();
+            ualarm(0, 0);
+            /*----------------------------------------------------*/
+        }
+        /*------------------------------------------------------------------------------------------*/
         /*------------------ std::vectors ---------------------*/
         std::vector<std::string> v1(10, "string2");
         std::vector<std::string> const v2(10, "string2");
@@ -700,6 +872,27 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " rbegin and rend methods "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v1(1e6, "string2");
+            start = get_time();
+            v1.rbegin();
+            v1.rend();
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*-----------------------------------------------------*/
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1(1e6, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v1.rbegin();
+            ft_v1.rend();
+            ualarm(0, 0);
+            /*----------------------------------------------------*/
+        }
+        /*------------------------------------------------------------------------------------------*/
         /*------------------ std::vectors ---------------------*/
         std::vector<std::string> v1(10, "string2");
         std::vector<std::string> const v2(10, "string2");
@@ -726,6 +919,25 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " size method "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v1(1e6, "string2");
+            start = get_time();
+            v1.size();
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*-----------------------------------------------------*/
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1(1e6, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v1.size();
+            ualarm(0, 0);
+            /*----------------------------------------------------*/
+        }
+        /*------------------------------------------------------------------------------------------*/
         /*------------------ std::vectors ---------------------*/
         std::vector<std::string> v1(10, "string2");          // fill constructor
         std::vector<std::string> v2;                         // empty constructor
@@ -745,6 +957,25 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " capacity method "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v1(1e6, "string2");
+            start = get_time();
+            v1.capacity();
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*-----------------------------------------------------*/
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1(1e6, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v1.capacity();
+            ualarm(0, 0);
+            /*----------------------------------------------------*/
+        }
+        /*------------------------------------------------------------------------------------------*/
         /*------------------ std::vectors ---------------------*/
         std::vector<std::string> v1(10, "string2");          // fill constructor
         std::vector<std::string> v2;                         // empty constructor
@@ -764,6 +995,25 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " max_size method "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v1(1e6, "string2");
+            start = get_time();
+            v1.max_size();
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*-----------------------------------------------------*/
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1(1e6, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v1.max_size();
+            ualarm(0, 0);
+            /*----------------------------------------------------*/
+        }
+        /*------------------------------------------------------------------------------------------*/
         /*------------------ std::vectors ---------------------*/
 
         std::vector<std::string> v1(10, "string");
@@ -780,6 +1030,58 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " resize method "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*
+             * test with n greater than vector capacity
+             */
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v1(10, "string2");
+            start = get_time();
+            v1.resize(1e6);
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1(10, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v1.resize(1e6);
+            ualarm(0, 0);
+            /*----------------------------------------------------*/
+            /*
+             *	test with n lesser than capacity and greater than size
+             */
+            /*------------------ std::vectors ---------------------*/
+            v1.resize(20);
+            start = get_time();
+            v1.resize(1e5);
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*------------------ ft::vectors ---------------------*/
+            ft_v1.resize(20);
+            ualarm(diff * 1e3, 0);
+            ft_v1.resize(1e5);
+            ualarm(0, 0);
+            /*----------------------------------------------------*/
+            /*
+             * test with n lesser than capacity and lesser an size
+             */
+            /*------------------ std::vectors ---------------------*/
+            v1.resize(100);
+            start = get_time();
+            v1.resize(50);
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*------------------ ft::vectors ---------------------*/
+            ft_v1.resize(100);
+            ualarm(diff * 1e3, 0);
+            ft_v1.resize(50);
+            ualarm(0, 0);
+            /*----------------------------------------------------*/
+        }
         /*
          * Strings to store the results
          */
@@ -903,6 +1205,22 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " empty method "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v1(1e6, "string2");
+            start = get_time();
+            v1.empty();
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1(1e6, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v1.empty();
+            ualarm(0, 0);
+        }
         /*------------------ std::vectors ---------------------*/
         std::vector<std::string> v1(10, "string2");
         std::vector<int> v2;
@@ -915,6 +1233,22 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " reserve method "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v1(10, "string2");
+            start = get_time();
+            v1.reserve(1e6);
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1(10, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v1.reserve(1e6);
+            ualarm(0, 0);
+        }
         /*
          * Strings to store the results
          */
@@ -1005,6 +1339,22 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " operator[] method "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v1(1e6, "string2");
+            start = get_time();
+            v1[1e6 - 1];
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1(1e6, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v1[1e6 - 1];
+            ualarm(0, 0);
+        }
         /*------------------ std::vectors ---------------------*/
         std::vector<std::string> v1(10, "string2");
         std::vector<char> const v2(10, '9');
@@ -1041,7 +1391,22 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " at method "
               << "] --------------------]\t\t\033[0m";
     {
-        
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v1(1e6, "string2");
+            start = get_time();
+            v1.at(1e6 - 1);
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1(1e6, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v1.at(1e6 - 1);
+            ualarm(0, 0);
+        }
         /*------------------ std::vectors ---------------------*/
         std::vector<std::string> v1(10, "string2");
         std::vector<char> const v2(10, '9');
@@ -1116,6 +1481,22 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " assign(fill) method "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v1(1e6, "string2");
+            start = get_time();
+            v1.assign(1e6 + 1, "assign");
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1(1e6, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v1.assign(1e6 + 1, "assign");
+            ualarm(0, 0);
+        }
         /*------------------ std::vectors ---------------------*/
         std::vector<std::string> v1(10, "string2");
         std::vector<char> v2;
@@ -1176,6 +1557,25 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " assign(range) method "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1(1e6, "string2");
+            // std::vector<std::string>    v1(1e6, "string2");
+            std::vector<std::string> v2(1e4, "string2");
+            start = get_time();
+            v2.assign(ft_v1.begin(), ft_v1.end());
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*------------------ ft::vectors ---------------------*/
+            // ft::Vector<std::string>    ft_v1(1e6, "string2");
+            ft::Vector<std::string> ft_v2(1e4, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v2.assign(ft_v1.begin(), ft_v1.end());
+            ualarm(0, 0);
+        }
         /*------------------ std::vectors ---------------------*/
         std::vector<std::string> v1(20, "less");
         std::vector<std::string> v2;
@@ -1238,6 +1638,44 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " push_back method "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            // test 1: test with capacity greater than or equal the size + the new element (reallocation must'nt happen)
+            /*------------------ std::vectors ---------------------*/
+            {
+                std::vector<std::string> v1(1e6, "string2");
+                v1.reserve(1e6 + 1);
+                start = get_time();
+                v1.push_back("string1");
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v1(1e6, "string2");
+                ft_v1.reserve(1e6 + 1);
+                ualarm(diff * 1e3, 0);
+                ft_v1.push_back("string1");
+                ualarm(0, 0);
+            }
+            /*--------------------------------------------------------------------------------------*/
+            // test 2: test with capacity lesser than the size + the new element (reallocation must happen)
+            /*------------------ std::vectors ---------------------*/
+            {
+                std::vector<std::string> v1(1e6, "string2");
+                start = get_time();
+                v1.push_back("string1");
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v1(1e6, "string2");
+                ualarm(diff * 1e3, 0);
+                ft_v1.push_back("string1");
+                ualarm(0, 0);
+            }
+            /*--------------------------------------------------------------------------------------*/
+        }
         /*------------------ std::vectors ---------------------*/
         std::vector<std::string> v;
         /*------------------ std::vectors ---------------------*/
@@ -1308,6 +1746,22 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " pop_back method "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v1(1e6, "string2");
+            start = get_time();
+            v1.pop_back();
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1(1e6, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v1.pop_back();
+            ualarm(0, 0);
+        }
         /*------------------ std::vectors ---------------------*/
         std::vector<std::string> v(20, "string");
         /*------------------ std::vectors ---------------------*/
@@ -1336,6 +1790,44 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " insert method (single element) "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            // test 1: test with capacity greater than or equal the size + the new element (reallocation must'nt happen)
+            /*------------------ std::vectors ---------------------*/
+            {
+                std::vector<std::string> v1(1e6, "string2");
+                v1.reserve(1e6 + 1);
+                start = get_time();
+                v1.insert(v1.begin() + 1e5, "string1");
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v1(1e6, "string2");
+                ft_v1.reserve(1e6 + 1);
+                ualarm(diff * 1e3, 0);
+                ft_v1.insert(ft_v1.begin() + 1e5, "string1");
+                ualarm(0, 0);
+            }
+            /*--------------------------------------------------------------------------------------*/
+            // test 2: test with capacity lesser than the size + the new element (reallocation must happen)
+            /*------------------ std::vectors ---------------------*/
+            {
+                std::vector<std::string> v1(1e6, "string2");
+                start = get_time();
+                v1.insert(v1.begin() + 1e5, "string1");
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v1(1e6, "string2");
+                ualarm(diff * 1e3, 0);
+                ft_v1.insert(ft_v1.begin() + 1e5, "string1");
+                ualarm(0, 0);
+            }
+        }
+        /*--------------------------------------------------------------------------------------*/
         /*
          * strings to store the resutls
          */
@@ -1447,6 +1939,44 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " insert method (fill) "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            // test 1: test with capacity greater than or equal the size + n (reallocation must'nt happen)
+            /*------------------ std::vectors ---------------------*/
+            {
+                std::vector<std::string> v1(1e6, "string2");
+                v1.reserve(1e6 + 200);
+                start = get_time();
+                v1.insert(v1.begin() + 1e5, 100, "string1");
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v1(1e6, "string2");
+                ft_v1.reserve(1e6 + 200);
+                ualarm(diff * 1e3, 0);
+                ft_v1.insert(ft_v1.begin() + 1e5, 100, "string1");
+                ualarm(0, 0);
+            }
+            /*--------------------------------------------------------------------------------------*/
+            // test 2: test with capacity lesser than the size + n (reallocation must happen)
+            /*------------------ std::vectors ---------------------*/
+            {
+                std::vector<std::string> v1(1e6, "string2");
+                start = get_time();
+                v1.insert(v1.begin() + 1e5, 200, "string1");
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v1(1e6, "string2");
+                ualarm(diff * 1e3, 0);
+                ft_v1.insert(ft_v1.begin() + 1e5, 200, "string1");
+                ualarm(0, 0);
+            }
+            /*--------------------------------------------------------------------------------------*/
+        }
         /*
          * strings to store the resutls
          */
@@ -1575,6 +2105,47 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " insert method (range) "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            // test 1: test with capacity greater than or equal the size + n (reallocation must'nt happen)
+            /*------------------ std::vectors ---------------------*/
+            {
+                std::vector<std::string> v(100, "hello");
+                std::vector<std::string> v1(1e6, "string2");
+                v1.reserve(1e6 + 200);
+                start = get_time();
+                v1.insert(v1.begin() + 1e5, v.begin(), v.end());
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v(100, "hello");
+                ft::Vector<std::string> ft_v1(1e6, "string2");
+                ft_v1.reserve(1e6 + 200);
+                ualarm(diff * 1e3, 0);
+                ft_v1.insert(ft_v1.begin() + 1e5, ft_v.begin(), ft_v.end());
+                ualarm(0, 0);
+            }
+            /*--------------------------------------------------------------------------------------*/
+            // test 2: test with capacity lesser than the size + n (reallocation must happen)
+            /*------------------ std::vectors ---------------------*/
+            {
+                ft::Vector<std::string> v(1e5, "hello");
+                std::vector<std::string> v1(1e6, "string2");
+                start = get_time();
+                v1.insert(v1.begin() + 1e5, v.begin(), v.end());
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v1(1e6, "string2");
+                ualarm(diff * 1e3, 0);
+                ft_v1.insert(ft_v1.begin() + 1e5, v.begin(), v.end());
+                ualarm(0, 0);
+            }
+            /*--------------------------------------------------------------------------------------*/
+        }
         /*
          * strings to store the resutls
          */
@@ -1708,6 +2279,22 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " erase method (single element) "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v1(1e6, "string2");
+            start = get_time();
+            v1.erase(v1.begin() + 1e5);
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1(1e6, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v1.erase(ft_v1.begin() + 1e5);
+            ualarm(0, 0);
+        }
         /*
          * strings to store the resutls
          */
@@ -1748,6 +2335,22 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " erase method (range) "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v1(1e6, "string2");
+            start = get_time();
+            v1.erase(v1.begin(), v1.end());
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v1(1e6, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v1.erase(ft_v1.begin(), ft_v1.end());
+            ualarm(0, 0);
+        }
         /*
          * strings to store the resutls
          */
@@ -1859,6 +2462,24 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " swap method "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v(1e6, "string");
+            std::vector<std::string> v1(1e6, "string2");
+            start = get_time();
+            v.swap(v1);
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v(1e6, "string");
+            ft::Vector<std::string> ft_v1(1e6, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v.swap(ft_v1);
+            ualarm(0, 0);
+        }
         /*
          * strings to store the resutls
          */
@@ -1960,6 +2581,22 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " clear method "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v(1e6, "string");
+            start = get_time();
+            v.clear();
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v(1e6, "string2");
+            ualarm(diff * 1e3, 0);
+            ft_v.clear();
+            ualarm(0, 0);
+        }
         /*
          * strings to store the resutls
          */
@@ -2007,6 +2644,46 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " operator== "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*----------------------------------- test 1: lhs.size == rhs.size ---------------------*/
+            {
+                /*------------------ std::vectors ---------------------*/
+                std::vector<std::string> v(1e6, "string");
+                std::vector<std::string> v1(1e6, "string");
+                start = get_time();
+                (void)(v == v1);
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v(1e6, "string");
+                ft::Vector<std::string> ft_v1(1e6, "string");
+                ualarm(diff * 1e3, 0);
+                (void)(ft_v == ft_v1);
+                ualarm(0, 0);
+            }
+            /*---------------------------------------------------------------------------------------*/
+            /*----------------------------------- test 2: lhs.size != rhs.size ---------------------*/
+            {
+                /*------------------ std::vectors ---------------------*/
+                std::vector<std::string> v(1e5, "hello");
+                std::vector<std::string> v1(1e6, "string");
+                start = get_time();
+                (void)(v == v1);
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v(1e5, "hello");
+                ft::Vector<std::string> ft_v1(1e6, "string2");
+                ualarm(diff * 1e3, 0);
+                (void)(ft_v == ft_v1);
+                ualarm(0, 0);
+            }
+            /*---------------------------------------------------------------------------------------*/
+        }
         bool cond;
         /*------------------------------------------ test 1: lhs.size == rhs.size ------------------*/
         {
@@ -2060,6 +2737,46 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " operator!= "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*----------------------------------- test 1: lhs.size == rhs.size ---------------------*/
+            {
+                /*------------------ std::vectors ---------------------*/
+                std::vector<std::string> v(1e6, "string");
+                std::vector<std::string> v1(1e6, "string");
+                start = get_time();
+                (void)(v != v1);
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v(1e6, "string");
+                ft::Vector<std::string> ft_v1(1e6, "string");
+                ualarm(diff * 1e3, 0);
+                (void)(ft_v != ft_v1);
+                ualarm(0, 0);
+            }
+            /*---------------------------------------------------------------------------------------*/
+            /*----------------------------------- test 2: lhs.size != rhs.size ---------------------*/
+            {
+                /*------------------ std::vectors ---------------------*/
+                std::vector<std::string> v(1e5, "hello");
+                std::vector<std::string> v1(1e6, "string");
+                start = get_time();
+                (void)(v != v1);
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v(1e5, "hello");
+                ft::Vector<std::string> ft_v1(1e6, "string2");
+                ualarm(diff * 1e3, 0);
+                (void)(ft_v != ft_v1);
+                ualarm(0, 0);
+            }
+            /*---------------------------------------------------------------------------------------*/
+        }
         bool cond;
         /*------------------------------------------ test 1: lhs.size == rhs.size ------------------*/
         {
@@ -2113,6 +2830,46 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " operator< "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*----------------------------------- test 1: lhs.size == rhs.size ---------------------*/
+            {
+                /*------------------ std::vectors ---------------------*/
+                std::vector<std::string> v(1e6, "string");
+                std::vector<std::string> v1(1e6, "string");
+                start = get_time();
+                (void)(v < v1);
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v(1e6, "string");
+                ft::Vector<std::string> ft_v1(1e6, "string");
+                ualarm(diff * 1e3, 0);
+                (void)(ft_v < ft_v1);
+                ualarm(0, 0);
+            }
+            /*---------------------------------------------------------------------------------------*/
+            /*----------------------------------- test 2: lhs.size != rhs.size ---------------------*/
+            {
+                /*------------------ std::vectors ---------------------*/
+                std::vector<std::string> v(1e5, "hello");
+                std::vector<std::string> v1(1e6, "string");
+                start = get_time();
+                (void)(v < v1);
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v(1e5, "hello");
+                ft::Vector<std::string> ft_v1(1e6, "string2");
+                ualarm(diff * 1e3, 0);
+                (void)(ft_v < ft_v1);
+                ualarm(0, 0);
+            }
+            /*---------------------------------------------------------------------------------------*/
+        }
         bool cond;
         /*------------------------------------------ test 1: lhs.size == rhs.size ------------------*/
         {
@@ -2166,6 +2923,46 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " operator<= "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*----------------------------------- test 1: lhs.size == rhs.size ---------------------*/
+            {
+                /*------------------ std::vectors ---------------------*/
+                std::vector<std::string> v(1e6, "string");
+                std::vector<std::string> v1(1e6, "string");
+                start = get_time();
+                (void)(v <= v1);
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v(1e6, "string");
+                ft::Vector<std::string> ft_v1(1e6, "string");
+                ualarm(diff * 1e3, 0);
+                (void)(ft_v <= ft_v1);
+                ualarm(0, 0);
+            }
+            /*---------------------------------------------------------------------------------------*/
+            /*----------------------------------- test 2: lhs.size != rhs.size ---------------------*/
+            {
+                /*------------------ std::vectors ---------------------*/
+                std::vector<std::string> v(1e5, "hello");
+                std::vector<std::string> v1(1e6, "string");
+                start = get_time();
+                (void)(v <= v1);
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v(1e5, "hello");
+                ft::Vector<std::string> ft_v1(1e6, "string2");
+                ualarm(diff * 1e3, 0);
+                (void)(ft_v <= ft_v1);
+                ualarm(0, 0);
+            }
+            /*---------------------------------------------------------------------------------------*/
+        }
         bool cond;
         /*------------------------------------------ test 1: lhs.size == rhs.size ------------------*/
         {
@@ -2219,6 +3016,46 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " operator> "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*----------------------------------- test 1: lhs.size == rhs.size ---------------------*/
+            {
+                /*------------------ std::vectors ---------------------*/
+                std::vector<std::string> v(1e6, "string");
+                std::vector<std::string> v1(1e6, "string");
+                start = get_time();
+                (void)(v > v1);
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v(1e6, "string");
+                ft::Vector<std::string> ft_v1(1e6, "string");
+                ualarm(diff * 1e3, 0);
+                (void)(ft_v > ft_v1);
+                ualarm(0, 0);
+            }
+            /*---------------------------------------------------------------------------------------*/
+            /*----------------------------------- test 2: lhs.size != rhs.size ---------------------*/
+            {
+                /*------------------ std::vectors ---------------------*/
+                std::vector<std::string> v(1e5, "hello");
+                std::vector<std::string> v1(1e6, "string");
+                start = get_time();
+                (void)(v > v1);
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v(1e5, "hello");
+                ft::Vector<std::string> ft_v1(1e6, "string2");
+                ualarm(diff * 1e3, 0);
+                (void)(ft_v > ft_v1);
+                ualarm(0, 0);
+            }
+            /*---------------------------------------------------------------------------------------*/
+        }
         bool cond;
         /*------------------------------------------ test 1: lhs.size == rhs.size ------------------*/
         {
@@ -2272,6 +3109,46 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " operator>= "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*----------------------------------- test 1: lhs.size == rhs.size ---------------------*/
+            {
+                /*------------------ std::vectors ---------------------*/
+                std::vector<std::string> v(1e6, "string");
+                std::vector<std::string> v1(1e6, "string");
+                start = get_time();
+                (void)(v >= v1);
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v(1e6, "string");
+                ft::Vector<std::string> ft_v1(1e6, "string");
+                ualarm(diff * 1e3, 0);
+                (void)(ft_v >= ft_v1);
+                ualarm(0, 0);
+            }
+            /*---------------------------------------------------------------------------------------*/
+            /*----------------------------------- test 2: lhs.size != rhs.size ---------------------*/
+            {
+                /*------------------ std::vectors ---------------------*/
+                std::vector<std::string> v(1e5, "hello");
+                std::vector<std::string> v1(1e6, "string");
+                start = get_time();
+                (void)(v >= v1);
+                end = get_time();
+                diff = end - start;
+                diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+                /*------------------ ft::vectors ---------------------*/
+                ft::Vector<std::string> ft_v(1e5, "hello");
+                ft::Vector<std::string> ft_v1(1e6, "string2");
+                ualarm(diff * 1e3, 0);
+                (void)(ft_v >= ft_v1);
+                ualarm(0, 0);
+            }
+            /*---------------------------------------------------------------------------------------*/
+        }
         bool cond;
         /*------------------------------------------ test 1: lhs.size == rhs.size ------------------*/
         {
@@ -2325,6 +3202,24 @@ void vector_tests(void)
     std::cout << "\033[1;37m[-------------------- [" << std::setw(40) << std::left << " swap "
               << "] --------------------]\t\t\033[0m";
     {
+        /*-------------------------------------- time limit test -----------------------------------*/
+        {
+            time_t start, end, diff;
+            /*------------------ std::vectors ---------------------*/
+            std::vector<std::string> v(1e6, "string");
+            std::vector<std::string> v1(1e6, "string2");
+            start = get_time();
+            swap(v, v1);
+            end = get_time();
+            diff = end - start;
+            diff = (diff) ? (diff * TIME_FAC) : TIME_FAC;
+            /*------------------ ft::vectors ---------------------*/
+            ft::Vector<std::string> ft_v(1e6, "string");
+            ft::Vector<std::string> ft_v1(1e6, "string2");
+            ualarm(diff * 1e3, 0);
+            swap(ft_v, ft_v1);
+            ualarm(0, 0);
+        }
         /*
          * strings to store the resutls
          */
@@ -2439,10 +3334,10 @@ int main(void)
     std::cout << RED << "**** The test is taking so much time to test the all cases and the time complexity of each method ****" << std::endl;
     std::cout << RED << "--------------------------------------------------------------------------------------------------------" << RESET << std::endl;
     signal(SIGALRM, alarm_handler);
-    iterator_tests();
-    const_iterator_tests();
-    reverse_iterator_tests();
-    reverse_iterator_with_ft_vector();
+    // iterator_tests();
+    // const_iterator_tests();
+    // reverse_iterator_tests();
+    // reverse_iterator_with_ft_vector();
     vector_tests();
     return 0;
 }
