@@ -11,7 +11,11 @@
 # ************************************************************************************************** #
 
 COMPILER = clang++
-FLAGS = --std=c++98 -Wall -Wextra -Werror -fsanitize=address -g3
+FLAGS_DEBUG = --std=c++98 -Wall -Wextra -Werror -fsanitize=address -g3
+FLAGS = --std=c++98 -Wall -Wextra -Werror
+
+vector_tle:
+	@$(COMPILER) $(FLAGS_DEBUG)	Vector_tests_tle.cpp -o vector.out 
 
 vector:
 	@$(COMPILER) $(FLAGS)	Vector_tests.cpp -o vector.out 
