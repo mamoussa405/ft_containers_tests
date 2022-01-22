@@ -18,7 +18,7 @@ The tests we built and run directly on macOS Mojave(10.14), Big sur(11.6) and al
 ### How to use :
 
 ```
-$ git clone https://github.com/mamoussa405/ft_containers.git
+$ git clone https://github.com/mamoussa405/ft_containers_tests.git
 $ cd ft_containers/tests
 ```
 
